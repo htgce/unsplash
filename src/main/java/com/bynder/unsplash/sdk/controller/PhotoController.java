@@ -23,7 +23,10 @@ public class PhotoController {
     @GetMapping
     @ApiOperation(value = "Retrieve photo lists")
     public ResponseEntity<List<PhotoResponse>> getPhotos() {
-        return ResponseEntity.ok(photoService.getPhotos());
+        List<PhotoResponse> photos = photoService.getPhotos();
+        if (photos == null)
+            return ResponseEntity.noContent().build();
+        else return ResponseEntity.ok(photos);
     }
 
 }
