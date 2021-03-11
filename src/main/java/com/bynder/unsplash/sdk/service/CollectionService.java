@@ -15,4 +15,8 @@ public class CollectionService {
     public List<CollectionResponse> getCollections() {
         return unsplashClient.getCollections();
     }
+
+    public CollectionResponse addCollection(String title, String description, boolean isPrivate) {
+        return unsplashClient.addCollection(title, description, isPrivate);
+    }
 }

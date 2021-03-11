@@ -6,9 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +26,14 @@ public class CollectionController {
         else return ResponseEntity.ok(collections);
     }
 
+    @PostMapping
+    @ApiOperation(value = "Save collection ")
+    public ResponseEntity<CollectionResponse> addCollection(@RequestParam(required = true) String title,
+                                                            @RequestParam(required = false) String description,
+                                                            @RequestParam(required = false, name = "private") boolean isPrivate) {
+        CollectionResponse collection = collectionService.addCollection(title, description, isPrivate);
+        if (collection == null)
+            return ResponseEntity.noContent().build();
+        else return ResponseEntity.ok(collection);
+    }
 }
