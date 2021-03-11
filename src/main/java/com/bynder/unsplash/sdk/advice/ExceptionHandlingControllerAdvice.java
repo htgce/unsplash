@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.file.AccessDeniedException;
 import java.util.Collections;
 import java.util.UUID;
@@ -60,7 +58,7 @@ public class ExceptionHandlingControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public String handle(Exception ex, HttpServletRequest request, HttpServletResponse response) {
+    public String handle(Exception ex) {
         UUID randomUUID = UUID.randomUUID();
         log.error(ERROR_CODE_PREFIX, randomUUID.toString(), ex);
         return "Please check logs. Error code is " + randomUUID.toString();
@@ -69,7 +67,7 @@ public class ExceptionHandlingControllerAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
-    public String handleAccessDeniedExceptions(Exception ex, HttpServletRequest request, HttpServletResponse response) {
+    public String handleAccessDeniedExceptions(Exception ex) {
         UUID randomUUID = UUID.randomUUID();
         log.error(ERROR_CODE_PREFIX, randomUUID.toString(), ex);
         return "Please check logs. Error code is " + randomUUID.toString();
@@ -77,7 +75,7 @@ public class ExceptionHandlingControllerAdvice {
 
     @ExceptionHandler(FeignException.class)
     @ResponseBody
-    public String handleFeignException(FeignException ex, HttpServletRequest request) {
+    public String handleFeignException(FeignException ex) {
         UUID randomUUID = UUID.randomUUID();
         String feignExceptionDescription = "Error happened during call to Unsphlash Api.";
         log.error(feignExceptionDescription + ERROR_CODE_PREFIX, randomUUID.toString(), ex);
